@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Error - {{ portal_info.name }}{% endblock %}
+
+{% block content %}
+<div class="error-section">
+    <div class="error-header">
+        <h2>⚠️ Authentication Error</h2>
+        <p>There was a problem with your login request.</p>
+    </div>
+    
+    <div class="error-details">
+        <div class="error-message">
+            <h3>Error Details:</h3>
+            <p class="error-text">{{ error }}</p>
+        </div>
+        
+        <div class="error-actions">
+            <h3>What you can do:</h3>
+            <ul>
+                <li>Check that Keycloak is running on <code>localhost:8080</code></li>
+                <li>Verify your user account exists in the enterprise-sso realm</li>
+                <li>Ensure your account has appropriate permissions</li>
+                <li>Try logging in again</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="error-navigation">
+        <a href="{{ url_for('admin_login') }}" class="btn btn-primary">🔄 Try Again</a>
+        <a href="http://localhost:8080/admin/master/console/#/enterprise-sso" class="btn btn-outline" target="_blank">
+            🔧 Open Keycloak Admin (Debug)
+        </a>
+    </div>
+    
+    <div class="debug-info">
+        <h3>🔍 Debug Information</h3>
+        <div class="debug-details">
+            <p><strong>Portal:</strong> {{ portal_info.name }}</p>
+            <p><strong>Keycloak Realm:</strong> enterprise-sso</p>
+            <p><strong>Client ID:</strong> admin-dashboard</p>
+            <p><strong>Expected Callback:</strong> <code>/admin/callback</code></p>
+        </div>
+    </div>
+    
+    <div class="alternative-access">
+        <h3>🌐 Alternative Access</h3>
+        <p>You can still access the other portal types:</p>
+        <div class="portal-links">
+            <a href="http://localhost:3001" class="btn btn-outline">🏢 Internal Portal</a>
+            <a href="http://localhost:3002" class="btn btn-outline">🌐 External Portal</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

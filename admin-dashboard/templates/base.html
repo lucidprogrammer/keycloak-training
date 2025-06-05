@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ portal_info.name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="header">
+        <h1>{{ portal_info.icon }} {{ portal_info.name }}</h1>
+        <p>{{ portal_info.description }}</p>
+        {% if user %}
+        <div class="user-badge">
+            <span>👤 {{ user.name or user.username }}</span>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

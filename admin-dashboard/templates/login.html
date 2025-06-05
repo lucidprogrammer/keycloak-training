@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Login - {{ portal_info.name }}{% endblock %}
+
+{% block content %}
+<div class="login-section">
+    <h2>Administrator Access Required</h2>
+    <p>Please login with administrator credentials to access management functions.</p>
+    
+    <div class="login-features">
+        <h3>🔐 Administrative Features</h3>
+        <ul>
+            <li><strong>User Management:</strong> Add, modify, and deactivate user accounts</li>
+            <li><strong>Approval Workflows:</strong> Review and process pending requests</li>
+            <li><strong>System Monitoring:</strong> Track system health and user activity</li>
+            <li><strong>Compliance Reports:</strong> Generate security and audit reports</li>
+        </ul>
+    </div>
+    
+    <div class="auth-section">
+        <a href="{{ url_for('admin_auth') }}" class="btn btn-primary btn-large">
+            🔑 Login with Enterprise SSO
+        </a>
+        <p class="auth-note">
+            Secure authentication via Keycloak Identity Management
+        </p>
+    </div>
+    
+    <div class="system-info">
+        <h3>🌐 System Access</h3>
+        <p>This is a <strong>server-side rendered</strong> administrative interface.</p>
+        <p>Navigate to other portal types:</p>
+        <div class="portal-links">
+            <a href="http://localhost:3001" class="btn btn-outline">🏢 Internal Portal (SPA)</a>
+            <a href="http://localhost:3002" class="btn btn-outline">🌐 External Portal (SPA)</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

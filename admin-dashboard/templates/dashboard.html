@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ portal_info.name }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <h2>Administrative Control Panel</h2>
+    
+    <div class="user-info">
+        <h3>Administrator Information</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Administrator:</label>
+                <span>{{ user.username }}</span>
+            </div>
+            <div class="info-item">
+                <label>Email:</label>
+                <span>{{ user.email or 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+                <label>Full Name:</label>
+                <span>{{ user.name or user.username }}</span>
+            </div>
+            <div class="info-item">
+                <label>Admin Level:</label>
+                <span>{{ 'System Administrator' if is_admin else 'Standard User' }}</span>
+            </div>
+            <div class="info-item">
+                <label>Session Type:</label>
+                <span>🖥️ Server-Side Session</span>
+            </div>
+            <div class="info-item">
+                <label>Permissions:</label>
+                <span>{{ user.roles | join(', ') if user.roles else 'employee' }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.pending_approvals }}</div>
+            <div class="stat-label">Pending Approvals</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.active_users }}</div>
+            <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.connected_systems }}</div>
+            <div class="stat-label">Connected Systems</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.system_uptime }}</div>
+            <div class="stat-label">System Uptime</div>
+        </div>
+    </div>
+
+    <div class="approval-queue">
+        <h3>🔔 Pending Approvals</h3>
+        <div class="approval-list">
+            {% for item in pending_items %}
+            <div class="approval-item">
+                <div class="approval-type">{{ item.type }}</div>
+                <div class="approval-desc">{{ item.description }}</div>
+                <div class="approval-actions">
+                    <button class="btn btn-success btn-sm">✅ Approve</button>
+                    <button class="btn btn-warning btn-sm">⏳ Review</button>
+                    <button class="btn btn-danger btn-sm">❌ Reject</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-primary">📋 Review All Pending →</button>
+    </div>
+
+    <div class="admin-panels">
+        <div class="admin-panel">
+            <h3>🛠️ System Management</h3>
+            <ul>
+                <li><strong>User Management:</strong> Add, modify, deactivate user accounts</li>
+                <li><strong>Role Assignment:</strong> Configure access permissions</li>
+                <li><strong>Audit Logs:</strong> Review system access and changes</li>
+                <li><strong>System Integration:</strong> Manage 8 connected applications</li>
+            </ul>
+            <button class="btn btn-outline">⚙️ Manage Users</button>
+        </div>
+
+        <div class="admin-panel">
+            <h3>📊 Workflow Systems</h3>
+            <ul>
+                <li><strong>Procurement System:</strong> Auction and vendor approval workflows</li>
+                <li><strong>Project Management:</strong> Project and plan approval processes</li>
+                <li><strong>Employee Services:</strong> Leave and resource booking approvals</li>
+                <li><strong>Budget Management:</strong> Financial approval hierarchies</li>
+            </ul>
+            <button class="btn btn-outline">📈 View Workflows</button>
+        </div>
+
+        <div class="admin-panel">
+            <h3>🔐 Security & Compliance</h3>
+            <ul>
+                <li><strong>Access Control:</strong> Monitor and manage user permissions</li>
+                <li><strong>Security Logs:</strong> Track authentication and authorization</li>
+                <li><strong>Compliance Reports:</strong> Cybersecurity Act & PDPA compliance</li>
+                <li><strong>Session Management:</strong> Monitor active user sessions</li>
+            </ul>
+            <button class="btn btn-outline">🛡️ Security Center</button>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <h3>🔄 Navigate to Other Systems</h3>
+        <p><strong>SSO Integration Demo:</strong> Your session will carry over to other portals</p>
+        <div class="portal-navigation">
+            <a href="http://localhost:3001" class="btn btn-info">🏢 Internal Portal (SPA) →</a>
+            <a href="http://localhost:3002" class="btn btn-success">🌐 External Portal (SPA) →</a>
+        </div>
+        <p class="tech-note">
+            <em>Notice: The other portals use Single Page Application (SPA) architecture, 
+            while this admin dashboard uses server-side rendering for enhanced security.</em>
+        </p>
+    </div>
+
+    <div class="logout-section">
+        <h3>🚪 Session Management</h3>
+        <p>Current session is managed server-side for enhanced security.</p>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">🔓 Logout from All Systems</a>
+        <p class="logout-note">
+            <em>Logout will terminate your session across all Enterprise SSO-enabled applications.</em>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
+{% endblock %}
